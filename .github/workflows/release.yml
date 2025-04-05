@@ -13,14 +13,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up zip file name
-        id: zipinfo
-        run: |
-          ZIP_NAME="ammonia-to-water_${GITHUB_REF##*/}.zip"
-          echo "ZIP_NAME=${ZIP_NAME}" >> $GITHUB_ENV
-
       - name: Create zip archive
         run: |
+          ZIP_NAME="ammonia-to-water_${GITHUB_REF##*/}.zip"
           mkdir -p "ammonia-to-water"
           rsync -av --exclude .git/ --exclude .github/ --exclude util/ --exclude .gitignore ./ "ammonia-to-water/"
           zip -r "$ZIP_NAME" ammonia-to-water
