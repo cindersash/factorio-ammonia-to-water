@@ -24,7 +24,7 @@ jobs:
           TEMP_DIR=$(mktemp -d)
           mkdir -p "$TEMP_DIR/ammonia-to-water"
           rsync -av --exclude .git/ --exclude .github/ --exclude util/ --exclude .gitignore ./ "$TEMP_DIR/ammonia-to-water/"
-          zip -r "$ZIP_NAME" -j "$TEMP_DIR/ammonia-to-water"
+          zip -r "$ZIP_NAME" "$TEMP_DIR/ammonia-to-water"
           rm -rf "$TEMP_DIR"
 
       - name: Create GitHub Release
