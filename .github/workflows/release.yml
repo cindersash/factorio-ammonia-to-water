@@ -21,7 +21,9 @@ jobs:
 
       - name: Create zip archive
         run: |
-          zip --recurse-paths "$ZIP_NAME" . --exclude ".git/*" ".github/*"
+          mkdir -p ammonia-to-water
+          cp -r * ammonia-to-water/
+          zip -r "$ZIP_NAME" ammonia-to-water -x "ammonia-to-water/.git/*" "ammonia-to-water/.github/*" "ammonia-to-water/.gitignore" "ammonia-to-water/util/*"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
