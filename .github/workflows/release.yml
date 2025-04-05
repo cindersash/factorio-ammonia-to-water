@@ -1,0 +1,33 @@
+name: Create Release Zip
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  zip-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up zip file name
+        id: zipinfo
+        run: |
+          ZIP_NAME="release-${GITHUB_REF##*/}.zip"
+          echo "ZIP_NAME=${ZIP_NAME}" >> $GITHUB_ENV
+
+      - name: Create zip archive
+        run: |
+          zip --recurse-paths "$ZIP_NAME" . --exclude ".git/*" ".github/*"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          files: ${{ env.ZIP_NAME }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
