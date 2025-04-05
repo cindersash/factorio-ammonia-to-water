@@ -21,9 +21,11 @@ jobs:
 
       - name: Create zip archive
         run: |
-          mkdir -p ammonia-to-water
-          cp -r * ammonia-to-water/
-          zip -r "$ZIP_NAME" ammonia-to-water -x "ammonia-to-water/.git/*" "ammonia-to-water/.github/*" "ammonia-to-water/.gitignore" "ammonia-to-water/util/*"
+          TEMP_DIR=$(mktemp -d)
+          mkdir -p "$TEMP_DIR/ammonia-to-water"
+          rsync -av --exclude .git/ --exclude .github/ --exclude util/ --exclude .gitignore ./ "$TEMP_DIR/ammonia-to-water/"
+          zip -r "$ZIP_NAME" -j "$TEMP_DIR/ammonia-to-water"
+          rm -rf "$TEMP_DIR"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
