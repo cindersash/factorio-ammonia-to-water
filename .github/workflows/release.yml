@@ -16,7 +16,7 @@ jobs:
       - name: Set up zip file name
         id: zipinfo
         run: |
-          ZIP_NAME="release-${GITHUB_REF##*/}.zip"
+          ZIP_NAME="ammonia-to-water_${GITHUB_REF##*/}.zip"
           echo "ZIP_NAME=${ZIP_NAME}" >> $GITHUB_ENV
 
       - name: Create zip archive
